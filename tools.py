@@ -1,5 +1,10 @@
+from langchain_community.tools.tavily_search import TavilySearchResults
+
 from typing import Literal
 from langchain_core.tools import tool
+
+
+tavily_search = TavilySearchResults(max_results=5)
 
 
 @tool
