@@ -2,37 +2,16 @@ from langgraph.graph.message import MessagesState
 from langgraph.graph import StateGraph, START, END
 from langgraph.prebuilt import ToolNode
 
-from typing import Literal
-
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_groq import ChatGroq
 
+from typing import Literal
 from dotenv import load_dotenv
 
-from tools import get_weather
+from tools import get_weather, tavily_search
 
 
-_ = load_dotenv()
-
-tools = [get_weather]
-
-model = ChatGroq(
-    model="llama3-70b-8192",
-    temperature=0,
-    max_tokens=None,
-    timeout=None,
-    max_retries=2,
-    # other params...
-)
-
-prompt = """You are a smart research assistant. Use the search engine to look up information. \
-You are allowed to make multiple calls (either together or in sequence). \
-Only look up information when you are sure of what you want. \
-If you need to look up some information before asking a follow up question, you are allowed to do that!
-"""
-
-
-class Agent:
+class HealthAgent:
     def __init__(self, model: ChatGroq, tools, system=""):
         self.system = system
         self.model = model.bind_tools(tools)
@@ -77,4 +56,23 @@ class Agent:
         return {"messages": [response]}
 
 
-agent = Agent(model, tools, system=prompt)
+_ = load_dotenv()
+
+model = ChatGroq(
+    model="llama3-70b-8192",
+    temperature=0,
+    max_tokens=None,
+    timeout=None,
+    max_retries=2,
+    # other params...
+)
+
+tools = [tavily_search]
+
+system_prompt = """You are a smart healthcare assistant. Use the search engine to look up information if needed. \
+You are allowed to make multiple calls (either together or in sequence). \
+Only look up information when you are sure of what you want. \
+If you need to look up some information before asking a follow up question, you are allowed to do that!
+"""
+
+healthAgent = HealthAgent(model, tools, system=system_prompt)

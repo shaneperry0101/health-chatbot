@@ -3,7 +3,7 @@ from langchain.schema.runnable.config import RunnableConfig
 
 import chainlit as cl
 
-from graph import agent
+from agents import healthAgent
 
 
 @cl.on_message
@@ -12,7 +12,7 @@ async def on_message(msg: cl.Message):
     cb = cl.LangchainCallbackHandler()
     final_answer = cl.Message(content="")
 
-    for msg, metadata in agent.graph.stream(
+    for msg, metadata in healthAgent.graph.stream(
             {"messages": [HumanMessage(content=msg.content)]},
             stream_mode="messages",
             config=RunnableConfig(callbacks=[cb], **config)
