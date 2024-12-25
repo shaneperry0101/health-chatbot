@@ -1,4 +1,8 @@
+# temporary files
 .env
+.chainlit
+.files
+__pycache__
 
 test.ipynb
 
