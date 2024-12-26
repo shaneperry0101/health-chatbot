@@ -67,7 +67,10 @@ model = ChatGroq(
     # other params...
 )
 
-tools = [tavily_search]
+tools = [
+    # get_weather,
+    # tavily_search,
+]
 
 system_prompt = """You are a smart healthcare assistant. Use the search engine to look up information if needed. \
 You are allowed to make multiple calls (either together or in sequence). \
