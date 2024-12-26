@@ -60,7 +60,7 @@ _ = load_dotenv()
 
 model = ChatGroq(
     model="llama3-70b-8192",
-    temperature=0,
+    temperature=1,
     max_tokens=None,
     timeout=None,
     max_retries=2,
