@@ -2,7 +2,3 @@
 .env
 .files
 __pycache__
-
-test.ipynb
-
-temp/
