@@ -6,7 +6,7 @@ import chainlit as cl
 from typing import Optional
 
 from core import healthAgent
-from utils import chatProfile
+from utils import chatProfile, chatSettings
 
 
 @cl.password_auth_callback
@@ -30,8 +30,15 @@ async def chat_profile(current_user: cl.User):
 
 @cl.on_chat_start
 async def on_chat_start():
+    settings = await chatSettings.send()
+
     print("hello", cl.user_session.get(
         "user").identifier, cl.user_session.get("id"))
+
+
+@cl.on_settings_update
+async def setup_agent(settings):
+    print("on_settings_update", settings)
 
 
 @cl.on_message

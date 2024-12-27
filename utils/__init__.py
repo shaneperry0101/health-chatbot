@@ -1,4 +1,5 @@
 import chainlit as cl
+from chainlit.input_widget import Select, Slider, Switch, Tags, TextInput
 
 chatProfile = cl.ChatProfile(
     name="Healthcare Assistant Profile",
@@ -26,4 +27,41 @@ chatProfile = cl.ChatProfile(
             icon="/public/nutrition.png",
         )
     ],
+)
+
+chatSettings = cl.ChatSettings(
+    [
+        TextInput(
+            id="AgentName",
+            label="Agent Name",
+            initial="Healthcare Bot"
+        ),
+        Select(
+            id="Model",
+            label="Groq - Model",
+            values=["llama3-70b-8192"],
+            initial_index=0,
+            tooltip="Select a model for inference"
+        ),
+        Slider(
+            id="Temperature",
+            label="Groq - Temperature",
+            initial=1,
+            min=0,
+            max=2,
+            step=0.1,
+            tooltip="Select a temperature"
+        ),
+        Switch(
+            id="Streaming",
+            label="Groq - Stream Tokens",
+            initial=True,
+            tooltip="Want to stream messages?"
+        ),
+        Tags(
+            id="StopSequence",
+            label="Groq - StopSequence",
+            initial=["Answer:"]
+        ),
+    ]
 )
